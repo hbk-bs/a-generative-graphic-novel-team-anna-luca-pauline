@@ -18,70 +18,82 @@ window.addEventListener('DOMContentLoaded', () => {
         'https://hbk-bs.github.io/a-generative-graphic-novel-team-anna-luca-pauline/bild-16.png',
         'https://hbk-bs.github.io/a-generative-graphic-novel-team-anna-luca-pauline/bild-17.png',
         'https://hbk-bs.github.io/a-generative-graphic-novel-team-anna-luca-pauline/bild-18.png',
-        'https://hbk-bs.github.io/a-generative-graphic-novel-team-anna-luca-pauline/bild-18a.png' // Bild 18a als letztes Bild
+        'https://hbk-bs.github.io/a-generative-graphic-novel-team-anna-luca-pauline/bild-18a.png'
     ];
-    const captions = [
-        'Panel 1 caption',
-        'Panel 2 caption',
-        'Panel 3 caption',
-        'Panel 4 caption',
-        'Panel 5 caption',
-        'Panel 6 caption',
-        'Panel 7 caption',
-        'Panel 8 caption',
-        'Panel 9 caption',
-        'Panel 10 caption',
-        'Panel 11 caption',
-        'Panel 12 caption',
-        'Panel 13 caption',
-        'Panel 14 caption',
-        'Panel 15 caption',
-        'Panel 16 caption',
-        'Panel 17 caption',
-        'Panel 18 caption',
-        'Panel 18a caption' // Caption für das letzte Bild
-    ];
+    const captions = images.map(() => '');
 
     let current = 0;
+    let timer = null;
     const storyImage = document.getElementById('story-image');
     const caption = document.getElementById('caption');
     const storyContainer = document.getElementById('story-container');
     const progressBar = document.getElementById('progress-bar');
 
-    // Fortschrittsbalken erzeugen
-    images.forEach((_, i) => {
-        const seg = document.createElement('div');
-        seg.classList.add('progress-segment');
-        if (i === 0) seg.classList.add('active');
-        progressBar.appendChild(seg);
-    });
-
-    function updateProgressBar(index) {
-        const segments = document.querySelectorAll('.progress-segment');
-        segments.forEach((seg, i) => {
-            seg.classList.toggle('active', i === index);
+    function renderProgressBar(index) {
+        progressBar.innerHTML = '';
+        images.forEach((_, i) => {
+            const seg = document.createElement('div');
+            seg.classList.add('progress-segment');
+            if (i < index) {
+                seg.classList.add('active');
+                seg.style.background = '#fff';
+            } else if (i === index) {
+                seg.classList.add('active');
+                seg.style.background = 'linear-gradient(90deg, #fff 0%, #fff 0%, rgba(255,255,255,0.3) 0%)';
+            }
+            progressBar.appendChild(seg);
         });
+    }
+
+    function animateProgressBar(index, duration) {
+        const segments = document.querySelectorAll('.progress-segment');
+        if (segments[index]) {
+            segments[index].style.background = 'linear-gradient(90deg, #fff 0%, #fff 0%, rgba(255,255,255,0.3) 0%)';
+            let start = null;
+            function step(ts) {
+                if (!start) start = ts;
+                let progress = Math.min((ts - start) / duration, 1);
+                segments[index].style.background = `linear-gradient(90deg, #fff ${progress*100}%, rgba(255,255,255,0.3) ${progress*100}%)`;
+                if (progress < 1) {
+                    requestAnimationFrame(step);
+                }
+            }
+            requestAnimationFrame(step);
+        }
     }
 
     function showPanel(index) {
         storyImage.src = images[index];
         caption.textContent = captions[index];
-        updateProgressBar(index);
+        renderProgressBar(index);
+        animateProgressBar(index, 5000);
     }
 
-    // Navigation: links/rechts tippen
-    storyContainer.addEventListener('click', (e) => {
-        const rect = storyContainer.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        if (x < rect.width / 2) {
-            // links: zurück
-            current = (current - 1 + images.length) % images.length;
+    function nextPanel() {
+        if (current < images.length - 1) {
+            current++;
+            showPanel(current);
+            startTimer();
         } else {
-            // rechts: weiter
-            current = (current + 1) % images.length;
+            // Zurück zur Hauptseite, wenn alle Bilder durch sind
+            document.getElementById('story-page').style.display = 'none';
+            document.getElementById('profile-page').style.display = 'block';
         }
-        showPanel(current);
+    }
+
+    function startTimer() {
+        if (timer) clearTimeout(timer);
+        timer = setTimeout(() => {
+            nextPanel();
+        }, 5000);
+        animateProgressBar(current, 5000);
+    }
+
+    storyContainer.addEventListener('click', () => {
+        nextPanel();
     });
 
+    // Initial anzeigen
     showPanel(current);
+    startTimer();
 });
