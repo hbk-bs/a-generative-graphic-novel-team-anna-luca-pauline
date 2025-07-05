@@ -4,19 +4,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spaghettimageddon</title>
+    <title>Graphic novel</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <main>
+    <main id="profile-page">
+        <header id="profile-header">
+            <div id="profile-pic"></div>
+            <div>
+                <h2>Graphic novel</h2>
+                <p>@team-anna-luca-pauline</p>
+            </div>
+        </header>
+        <section id="profile-stories">
+            <div id="story-bubble">
+                <div class="story-ring"></div>
+                <div class="story-thumb">
+                    <span>Spaghettimageddon</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <main id="story-page" style="display:none;">
         <div id="progress-bar"></div>
-       
         <div id="story-container">
             <img id="story-image" src="assets/images/1.jpg" alt="Graphic Novel Panel" />
         </div>
-       
+        <p id="caption">Panel 1 caption</p>
     </main>
+
+    <script>
+        // Umschalten zwischen Profil und Story
+        document.getElementById('story-bubble').onclick = function () {
+            document.getElementById('profile-page').style.display = 'none';
+            document.getElementById('story-page').style.display = 'block';
+        };
+    </script>
     <script src="index.js"></script>
 </body>
 
