@@ -94,8 +94,14 @@ window.addEventListener('DOMContentLoaded', () => {
         animateProgressBar(current, 5000);
     }
 
+    let touchFired = false;
+
     storyContainer.addEventListener('click', (e) => {
-        // Nur auf Desktop ausführen
+        // Click nach Touch ignorieren!
+        if (touchFired) {
+            touchFired = false;
+            return;
+        }
         if ('ontouchstart' in window) return;
         if (timer) clearTimeout(timer);
 
@@ -118,6 +124,7 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 
     storyContainer.addEventListener('touchstart', (e) => {
+        touchFired = true;
         e.preventDefault(); // Verhindert zusätzliches click-Event!
         if (timer) clearTimeout(timer);
 
