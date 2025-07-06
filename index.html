@@ -1,68 +1,56 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Graphic novel</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Graphic Novel</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
-    <main id="profile-page">
-        <header id="profile-header">
-            <div id="story-bubble">
-                <div class="story-ring"></div>
-                <div class="story-thumb"></div>
-                <div id="profile-bio">
-                    <span><strong>Spaghettimageddon</strong> 
-						Ein KI-generierter Graphic Novel von Anna, Luca & Pauline.<br>
-                    🍝 Apokalypse, Pasta, Abenteuer.<br>
-                   
-                    </span>
-                </div>
-            </div>
-            <div>
-                <h2>Graphic novel</h2>
-                <p>@team-anna-luca-pauline</p>
-                <div id="profile-stats">
-                    <div><span class="stat-number">12</span><span class="stat-label">Beiträge</span></div>
-                    <div><span class="stat-number">1.234</span><span class="stat-label">Follower</span></div>
-                    <div><span class="stat-number">3</span><span class="stat-label">Gefolgt</span></div>
-                </div>
-            </div>
-        </header>
-        <!-- <section id="profile-stories">
-            <div id="story-bubble">
-                <div class="story-ring"></div>
-                <div class="story-thumb">
-                    <span>Spaghettimageddon</span>
-                </div>
-            </div>
-        </section> -->
-    </main>
-
-    <main id="story-page" style="display:none;">
-        <div id="story-container">
-            <div id="story-header">
-                <div id="progress-bar"></div>
-                <div class="story-ring story-ring-small">
-                    <div class="story-thumb story-thumb-small"></div>
-                </div>
-            </div>
-            <img id="story-image" src="assets/images/1.jpg" alt="Graphic Novel Panel" />
+  <main id="profile-page">
+    <header id="profile-header">
+      <div id="story-bubble">
+        <div class="story-ring"></div>
+        <div class="story-thumb"></div>
+        <div id="profile-bio">
+          <span><strong>Spaghettimageddon</strong><br />
+            Ein KI-generierter Graphic Novel von Anna, Luca & Pauline.<br />
+            🍝 Apokalypse, Pasta, Abenteuer.
+          </span>
         </div>
-        <p id="caption">Panel 1 caption</p>
-    </main>
+      </div>
+      <div>
+        <h2>Graphic Novel</h2>
+        <p>@team-anna-luca-pauline</p>
+        <div id="profile-stats">
+          <div><span class="stat-number">12</span><span class="stat-label">Beiträge</span></div>
+          <div><span class="stat-number">1.234</span><span class="stat-label">Follower</span></div>
+          <div><span class="stat-number">3</span><span class="stat-label">Gefolgt</span></div>
+        </div>
+      </div>
+    </header>
+  </main>
 
-    <script>
-        // Umschalten zwischen Profil und Story
-        document.getElementById('story-bubble').onclick = function () {
-            document.getElementById('profile-page').style.display = 'none';
-            document.getElementById('story-page').style.display = 'block';
-        };
-    </script>
-    <script src="index.js"></script>
+  <main id="story-page" style="display:none;">
+    <div id="story-container">
+      <div id="story-header">
+        <div id="progress-bar"></div>
+        <div class="story-ring story-ring-small">
+          <div class="story-thumb story-thumb-small"></div>
+        </div>
+      </div>
+      <img id="story-image" src="assets/images/1.jpg" alt="Graphic Novel Panel" />
+    </div>
+    <p id="caption">Panel 1 caption</p>
+  </main>
+
+  <script>
+    // Umschalten auf Story-Seite
+    document.getElementById('story-bubble').onclick = function () {
+      document.getElementById('profile-page').style.display = 'none';
+      document.getElementById('story-page').style.display = 'flex';
+    };
+  </script>
+  <script src="index.js"></script>
 </body>
-
 </html>

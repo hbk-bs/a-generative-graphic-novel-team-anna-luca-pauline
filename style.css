@@ -103,7 +103,7 @@ h1 {
     align-items: center;
     cursor: pointer;
     margin-right: 2rem;
-    margin-left: 0.5rem; /* weiter nach rechts gerückt */
+    margin-left: 0; /* kein zusätzlicher linker Abstand */
 }
 
 .story-ring {
@@ -137,7 +137,7 @@ h1 {
     align-items: flex-start;
     justify-content: flex-start;
     gap: 2.5rem;
-    margin: 2rem 0 1.5rem 2.5rem; /* weiter nach rechts gerückt */
+    margin: 2rem 0 1.5rem 0.5rem; /* weniger links, alles weiter nach links */
     text-align: left;
 }
 

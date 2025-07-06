@@ -1,24 +1,25 @@
 window.addEventListener('DOMContentLoaded', () => {
     const images = [
-        'assets/images/1.jpg',
-        'assets/images/2.jpg',
-        'assets/images/3.jpg',
-        'assets/images/4.jpg',
-        'assets/images/5.jpg',
-        'assets/images/6.jpg',
-        'assets/images/7.jpg',
-        'assets/images/8.jpg',
-        'assets/images/9.jpg',
-        'assets/images/10.jpg',
-        'https://hbk-bs.github.io/a-generative-graphic-novel-team-anna-luca-pauline/bild-11.png',
-        'https://hbk-bs.github.io/a-generative-graphic-novel-team-anna-luca-pauline/bild-12.png',
-        'https://hbk-bs.github.io/a-generative-graphic-novel-team-anna-luca-pauline/bild-13.png',
-        'https://hbk-bs.github.io/a-generative-graphic-novel-team-anna-luca-pauline/bild-14.png',
-        'https://hbk-bs.github.io/a-generative-graphic-novel-team-anna-luca-pauline/bild-15.png',
-        'https://hbk-bs.github.io/a-generative-graphic-novel-team-anna-luca-pauline/bild-16.png',
-        'https://hbk-bs.github.io/a-generative-graphic-novel-team-anna-luca-pauline/bild-17.png',
-        'https://hbk-bs.github.io/a-generative-graphic-novel-team-anna-luca-pauline/bild-18.png',
-        'https://hbk-bs.github.io/a-generative-graphic-novel-team-anna-luca-pauline/bild-18a.png'
+        'https://hbk-bs.github.io/a-generative-graphic-novel-team-anna-luca-pauline/tools/bild-1.png',
+        'https://hbk-bs.github.io/a-generative-graphic-novel-team-anna-luca-pauline/tools/bild-2.png',
+        'https://hbk-bs.github.io/a-generative-graphic-novel-team-anna-luca-pauline/tools/bild-3.png',
+        'https://hbk-bs.github.io/a-generative-graphic-novel-team-anna-luca-pauline/tools/bild-4.png',
+        'https://hbk-bs.github.io/a-generative-graphic-novel-team-anna-luca-pauline/tools/bild-5.png',
+        'https://hbk-bs.github.io/a-generative-graphic-novel-team-anna-luca-pauline/tools/bild-6.png',
+        'https://hbk-bs.github.io/a-generative-graphic-novel-team-anna-luca-pauline/tools/bild-7.png',
+        'https://hbk-bs.github.io/a-generative-graphic-novel-team-anna-luca-pauline/tools/bild-8.png',
+        'https://hbk-bs.github.io/a-generative-graphic-novel-team-anna-luca-pauline/tools/bild-9.2.png',
+        'https://hbk-bs.github.io/a-generative-graphic-novel-team-anna-luca-pauline/tools/bild-9.png',
+        'https://hbk-bs.github.io/a-generative-graphic-novel-team-anna-luca-pauline/tools/bild-10.2.png',
+        'https://hbk-bs.github.io/a-generative-graphic-novel-team-anna-luca-pauline/tools/bild-10.3.png',
+        'https://hbk-bs.github.io/a-generative-graphic-novel-team-anna-luca-pauline/tools/bild-11.png',
+        'https://hbk-bs.github.io/a-generative-graphic-novel-team-anna-luca-pauline/tools/bild-12.png',
+        'https://hbk-bs.github.io/a-generative-graphic-novel-team-anna-luca-pauline/tools/bild-13.png',
+        'https://hbk-bs.github.io/a-generative-graphic-novel-team-anna-luca-pauline/tools/bild-14.png',
+        'https://hbk-bs.github.io/a-generative-graphic-novel-team-anna-luca-pauline/tools/bild-15.png',
+        'https://hbk-bs.github.io/a-generative-graphic-novel-team-anna-luca-pauline/tools/bild-16.png',
+        'https://hbk-bs.github.io/a-generative-graphic-novel-team-anna-luca-pauline/tools/bild-17.png',
+        'https://hbk-bs.github.io/a-generative-graphic-novel-team-anna-luca-pauline/tools/bild-18.png',
     ];
     const captions = images.map(() => '');
 
@@ -28,6 +29,9 @@ window.addEventListener('DOMContentLoaded', () => {
     const caption = document.getElementById('caption');
     const storyContainer = document.getElementById('story-container');
     const progressBar = document.getElementById('progress-bar');
+    const profilePage = document.getElementById('profile-page');
+    const storyPage = document.getElementById('story-page');
+    const storyBubble = document.getElementById('story-bubble');
 
     function renderProgressBar(index) {
         progressBar.innerHTML = '';
@@ -76,8 +80,9 @@ window.addEventListener('DOMContentLoaded', () => {
             startTimer();
         } else {
             // Zurück zur Hauptseite, wenn alle Bilder durch sind
-            document.getElementById('story-page').style.display = 'none';
-            document.getElementById('profile-page').style.display = 'block';
+            storyPage.style.display = 'none';
+            profilePage.style.display = 'block';
+            current = 0; // Story zurücksetzen
         }
     }
 
@@ -89,9 +94,64 @@ window.addEventListener('DOMContentLoaded', () => {
         animateProgressBar(current, 5000);
     }
 
-    storyContainer.addEventListener('click', () => {
-        nextPanel();
+    storyContainer.addEventListener('click', (e) => {
+        if (timer) clearTimeout(timer); // Timer sofort stoppen
+
+        // Position im Bild bestimmen (für Handy: e.clientX, für Touch: e.touches[0].clientX)
+        let x;
+        if (e.touches && e.touches.length) {
+            x = e.touches[0].clientX;
+        } else {
+            x = e.clientX;
+        }
+        const rect = storyContainer.getBoundingClientRect();
+        const clickX = x - rect.left;
+
+        if (clickX > rect.width / 2) {
+            // Rechts geklickt/toucht: vorwärts
+            nextPanel();
+        } else {
+            // Links geklickt/toucht: zurück (außer beim ersten Bild)
+            if (current > 0) {
+                current--;
+                showPanel(current);
+                startTimer();
+            } else {
+                showPanel(current);
+                startTimer();
+            }
+        }
     });
+
+    // Optional: Touch-Unterstützung für Mobilgeräte
+    storyContainer.addEventListener('touchstart', (e) => {
+        if (timer) clearTimeout(timer);
+        let x = e.touches[0].clientX;
+        const rect = storyContainer.getBoundingClientRect();
+        const clickX = x - rect.left;
+
+        if (clickX > rect.width / 2) {
+            nextPanel();
+        } else {
+            if (current > 0) {
+                current--;
+                showPanel(current);
+                startTimer();
+            } else {
+                showPanel(current);
+                startTimer();
+            }
+        }
+    });
+
+    // Story von vorne starten, wenn man erneut auf die Story-Kugel klickt
+    storyBubble.onclick = function () {
+        profilePage.style.display = 'none';
+        storyPage.style.display = 'flex';
+        current = 0;
+        showPanel(current);
+        startTimer();
+    };
 
     // Initial anzeigen
     showPanel(current);
