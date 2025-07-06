@@ -95,6 +95,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     let touchFired = false;
+    let startY = null;
 
     storyContainer.addEventListener('click', (e) => {
         // Click nach Touch ignorieren!
@@ -125,8 +126,11 @@ window.addEventListener('DOMContentLoaded', () => {
 
     storyContainer.addEventListener('touchstart', (e) => {
         touchFired = true;
-        e.preventDefault(); // Verhindert zusätzliches click-Event!
+        e.preventDefault();
         if (timer) clearTimeout(timer);
+
+        // Swipe-Startpunkt merken
+        startY = e.touches[0].clientY;
 
         let x = e.touches[0].clientX;
         const rect = storyContainer.getBoundingClientRect();
@@ -144,6 +148,23 @@ window.addEventListener('DOMContentLoaded', () => {
                 startTimer();
             }
         }
+    });
+
+    // Swipe nach unten: zurück zur Hauptseite
+    storyContainer.addEventListener('touchmove', (e) => {
+        if (startY !== null) {
+            let deltaY = e.touches[0].clientY - startY;
+            if (deltaY > 60) { // 60px als Schwelle für "nach unten wischen"
+                storyPage.style.display = 'none';
+                profilePage.style.display = 'block';
+                current = 0;
+                startY = null;
+            }
+        }
+    });
+
+    storyContainer.addEventListener('touchend', () => {
+        startY = null;
     });
 
     // Story von vorne starten, wenn man erneut auf die Story-Kugel klickt

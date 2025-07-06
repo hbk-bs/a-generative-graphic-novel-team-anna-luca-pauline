@@ -198,7 +198,7 @@ h1 {
 #profile-bio {
     max-width: 98vw;
     font-size: 0.6rem;
-    margin-top: 1.2rem; /* mehr Abstand nach oben */
+    margin-top: 1.5rem; /* Abstand nach oben auch responsiv */
     margin-bottom: 0.2rem;
     padding-right: 0.1rem;
     word-break: break-word;
@@ -368,7 +368,7 @@ h1 {
     }
     #profile-bio {
         font-size: 0.6rem;
-        margin-top: 0.6rem;
+        margin-top: 1.5rem; /* Abstand nach oben auch mobil */
         margin-bottom: 0.1rem;
         padding-right: 0.1rem;
     }
