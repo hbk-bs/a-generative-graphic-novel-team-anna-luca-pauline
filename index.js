@@ -150,11 +150,12 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Swipe nach unten: zurück zur Hauptseite
+    // Swipe nach unten oder oben: zurück zur Hauptseite
     storyContainer.addEventListener('touchmove', (e) => {
         if (startY !== null) {
             let deltaY = e.touches[0].clientY - startY;
-            if (deltaY > 60) { // 60px als Schwelle für "nach unten wischen"
+            if (Math.abs(deltaY) > 60) { // 60px als Schwelle für "wischen"
+                // Egal ob nach unten oder oben gewischt: zurück zur Hauptseite
                 storyPage.style.display = 'none';
                 profilePage.style.display = 'block';
                 current = 0;
