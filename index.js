@@ -95,7 +95,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     storyContainer.addEventListener('click', (e) => {
-        if (timer) clearTimeout(timer); // Timer sofort stoppen
+        if (timer) clearTimeout(timer); // Timer sofort stoppen, damit sofort reagiert wird
 
         // Position im Bild bestimmen (für Handy: e.clientX, für Touch: e.touches[0].clientX)
         let x;
@@ -125,7 +125,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
     // Optional: Touch-Unterstützung für Mobilgeräte
     storyContainer.addEventListener('touchstart', (e) => {
-        if (timer) clearTimeout(timer);
+        if (timer) clearTimeout(timer); // Timer sofort stoppen
+
         let x = e.touches[0].clientX;
         const rect = storyContainer.getBoundingClientRect();
         const clickX = x - rect.left;

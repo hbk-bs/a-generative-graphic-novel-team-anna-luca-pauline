@@ -291,15 +291,20 @@ h1 {
     height: 28px;
     min-width: 28px;
     min-height: 28px;
-    border-width: 2px;
+    border: 2.5px solid #e53935; /* kräftiger roter Rand */
+    background: #fff;             /* weißes Zentrum */
+    box-sizing: border-box;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
 }
 
+/* Bild in der Story-Kugel in der Story-Ansicht ausblenden */
 #story-page .story-thumb-small {
-    width: 20px;
-    height: 20px;
-    min-width: 20px;
-    min-height: 20px;
-    border-width: 1.5px;
+    display: none !important;
 }
 
 @media (max-width: 600px) {
@@ -318,6 +323,10 @@ h1 {
         margin: 0.4rem 0 0.2rem 0;
         gap: 0.2rem;
         width: 100vw;
+    }
+
+    #profile-header-row {
+        gap: 0.2rem;
     }
 
     #story-bubble {
@@ -341,35 +350,27 @@ h1 {
         max-width: 55vw;
     }
 
-    #profile-header h2 {
-        font-size: 1rem;
-        margin-bottom: 0.1rem;
-    }
+    #profile-header h2,
     #profile-header p {
         font-size: 0.85rem;
-        margin-bottom: 0.4rem;
+        margin-bottom: 0.1rem;
+        white-space: nowrap;
     }
     #profile-stats {
-        gap: 2.5rem;
+        gap: 1rem;
         margin-bottom: 0.4rem;
     }
     .stat-number {
-        font-size: 0.9rem;
+        font-size: 0.75rem;
     }
     .stat-label {
-        font-size: 0.7rem;
+        font-size: 0.6rem;
     }
     #profile-bio {
-        max-width: 98vw;
         font-size: 0.6rem;
-        margin-top: 1.2rem;
-        margin-bottom: 0.2rem;
+        margin-top: 0.6rem;
+        margin-bottom: 0.1rem;
         padding-right: 0.1rem;
-        word-break: break-word;
-        align-items: flex-start;
-        display: flex;
-        flex-direction: column;
-        text-align: left;
     }
 }
 
@@ -391,4 +392,33 @@ h1 {
         border-radius: 16px;
         box-shadow: 0 4px 24px rgba(0,0,0,0.4);
     }
+}
+
+@keyframes story-glow {
+    0% {
+        box-shadow: 0 0 0 0 rgba(240,148,51,0.7), 0 0 16px 8px rgba(204,35,102,0.2);
+        border-color: #f09433;
+    }
+    25% {
+        box-shadow: 0 0 16px 8px rgba(230,104,60,0.7), 0 0 32px 16px rgba(220,39,67,0.2);
+        border-color: #e6683c;
+    }
+    50% {
+        box-shadow: 0 0 24px 12px rgba(220,39,67,0.7), 0 0 40px 20px rgba(188,24,136,0.2);
+        border-color: #dc2743;
+    }
+    75% {
+        box-shadow: 0 0 16px 8px rgba(204,35,102,0.7), 0 0 32px 16px rgba(240,148,51,0.2);
+        border-color: #cc2366;
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(240,148,51,0.7), 0 0 16px 8px rgba(204,35,102,0.2);
+        border-color: #f09433;
+    }
+}
+
+#story-bubble .story-ring {
+    animation: story-glow 2s infinite;
+    transition: box-shadow 0.3s, border-color 0.3s;
+    cursor: pointer;
 }
