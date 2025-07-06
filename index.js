@@ -95,23 +95,17 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     storyContainer.addEventListener('click', (e) => {
-        if (timer) clearTimeout(timer); // Timer sofort stoppen, damit sofort reagiert wird
+        // Nur auf Desktop ausführen
+        if ('ontouchstart' in window) return;
+        if (timer) clearTimeout(timer);
 
-        // Position im Bild bestimmen (für Handy: e.clientX, für Touch: e.touches[0].clientX)
-        let x;
-        if (e.touches && e.touches.length) {
-            x = e.touches[0].clientX;
-        } else {
-            x = e.clientX;
-        }
+        let x = e.clientX;
         const rect = storyContainer.getBoundingClientRect();
         const clickX = x - rect.left;
 
         if (clickX > rect.width / 2) {
-            // Rechts geklickt/toucht: vorwärts
             nextPanel();
         } else {
-            // Links geklickt/toucht: zurück (außer beim ersten Bild)
             if (current > 0) {
                 current--;
                 showPanel(current);
@@ -123,9 +117,9 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Optional: Touch-Unterstützung für Mobilgeräte
     storyContainer.addEventListener('touchstart', (e) => {
-        if (timer) clearTimeout(timer); // Timer sofort stoppen
+        e.preventDefault(); // Verhindert zusätzliches click-Event!
+        if (timer) clearTimeout(timer);
 
         let x = e.touches[0].clientX;
         const rect = storyContainer.getBoundingClientRect();
